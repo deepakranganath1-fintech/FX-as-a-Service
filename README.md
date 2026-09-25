@@ -1,6 +1,6 @@
-# FX Markup Optimizer
+# FX as a Service (FXaaS)
 
-**Live demo:** https://YOUR-USERNAME.github.io/fx-markup-optimizer/
+**Live demo:** https://deepakranganath1-fintech.github.io/FX-as-a-Service/
 
 A concept prototype for cross-border pricing. International buyers see prices in their own currency, the exchange rate is locked when the price is shown, and the merchant is paid in its own currency at that same rate.
 
