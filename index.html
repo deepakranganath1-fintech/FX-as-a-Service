@@ -38,6 +38,9 @@ header{display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,44px);line-height:1.05;margin:0;text-wrap:balance}
 .lede{margin:0;max-width:68ch;color:var(--muted)}
+.disclaimer{background:var(--brass);color:#1A1305;border-radius:10px;padding:12px 16px;font-size:14.5px;line-height:1.45;display:flex;gap:10px;align-items:baseline;font-weight:500;border:2px solid color-mix(in srgb,var(--brass) 60%,#000)}
+.disclaimer b{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+@media (max-width:640px){.disclaimer{flex-direction:column;gap:2px}}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font-family:var(--mono);font-size:12px;padding:3px 9px;border-radius:999px;background:var(--brass-soft);color:var(--brass);border:1px solid color-mix(in srgb,var(--brass) 35%,transparent)}
 .layout{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start}
@@ -54,6 +57,7 @@ aside h2{font-family:var(--display);font-size:17px;margin:0;font-weight:600}
 .field output{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--accent)}
 .field .hint{font-size:12px;color:var(--muted)}
 input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=range]:disabled{opacity:.35}
 input[type=number],select{width:100%;font:inherit;font-family:var(--mono);font-size:14px;padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .toggle{display:flex;gap:8px;align-items:center;font-size:13.5px}
 .toggle input{accent-color:var(--accent);width:16px;height:16px}
@@ -125,6 +129,22 @@ footer a{color:var(--accent)}
 .card .v{font-family:var(--display);font-weight:700;font-size:26px;font-variant-numeric:tabular-nums}
 .card .s{font-family:var(--mono);font-size:12px;color:var(--muted)}
 
+/* who keeps the FX margin */
+.split{display:flex;flex-direction:column;gap:16px}
+.opt{display:flex;flex-direction:column;gap:6px;padding:12px 14px;border:1px solid var(--line);border-radius:8px}
+.opt.on{border-color:color-mix(in srgb,var(--accent) 55%,var(--line));background:var(--accent-soft)}
+.opt .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.opt .name{font-family:var(--display);font-weight:600;font-size:17px}
+.opt .buyer{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.xbar{display:flex;height:34px;border-radius:6px;overflow:hidden;background:var(--sunk)}
+.xbar span{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;white-space:nowrap;overflow:hidden;min-width:0}
+.xbar .proc{background:var(--brass);color:#fff}
+.xbar .proc2{background:var(--brass);color:#fff;opacity:.72}
+.xbar .mer{background:var(--accent);color:var(--accent-ink)}
+.opt .earn{font-size:13.5px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+
 .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line)}
 .tab{background:none;color:var(--muted);border-radius:0;padding:10px 4px;margin-right:18px;border-bottom:2px solid transparent;font-family:var(--display);font-size:17px;font-weight:600}
 .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
@@ -178,20 +198,16 @@ pre.call{margin:0;background:var(--sunk);border-radius:8px;padding:12px 14px;fon
 
 
 <div class="wrap">
+  <div class="disclaimer" role="note"><b>Concept prototype</b><span>For discussion only. Rates, spreads, markups and splits are sample numbers, not real pricing, and this is not the live product.</span></div>
   <header>
     <div class="eyebrow">Concept prototype · Cross-border pricing</div>
     <h1>FX as a Service</h1>
-    <p class="lede">Show international buyers prices in their own currency, lock the rate when the price is shown, and settle in the merchant's currency. Walk through one cross-border order, then tune the markup across every market you sell into.</p>
+    <p class="lede">Show international buyers prices in their own currency, from one rate locked for the pricing period, and settle in the merchant's currency. Walk through one cross-border order and see what the merchant is paid at settlement.</p>
     <div class="chips"><span class="chip">Sample rates, not live</span><span class="chip">Modeled on public FXaaS docs</span><span class="chip">Assumptions are editable</span></div>
   </header>
 
 
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="tJ" aria-selected="true" aria-controls="tabJourney" type="button">Buyer journey</button>
-    <button class="tab" role="tab" id="tM" aria-selected="false" aria-controls="tabMerchant" type="button">Merchant economics</button>
-  </div>
-
-  <div id="tabJourney" class="tabpane" role="tabpanel" aria-labelledby="tJ">
+  <div id="tabJourney">
     <section class="panel">
       <div class="phead"><h2 id="jTitle">A fan in London buys a ticket for a show in Rome</h2>
         <div class="field" style="min-width:230px"><label for="jbuyer" class="glabel">Buyer is in</label><select id="jbuyer"></select></div></div>
@@ -203,97 +219,18 @@ pre.call{margin:0;background:var(--sunk);border-radius:8px;padding:12px 14px;fon
     </section>
   </div>
 
-  <div id="tabMerchant" class="tabpane" role="tabpanel" aria-labelledby="tM" hidden>
-  <section class="panel" aria-labelledby="sceneTitle">
-    <div class="eyebrow">Scenario</div>
-    <h2 class="scene-title" id="sceneTitle">A fan in London buys a concert ticket for a show in Rome</h2>
-    <div class="pickers">
-      <div class="field"><div class="row"><label for="buyer">Buyer is in</label></div><select id="buyer"></select></div>
-      <div class="field"><div class="row"><label for="settle">Merchant settles in</label></div><select id="settle"></select></div>
-      <div class="field"><div class="row"><label for="price">Ticket price (<span id="priceCcy">EUR</span>)</label></div><input id="price" type="number" min="1" step="1" value="145"></div>
-    </div>
-    <div class="flow five" id="scene"></div>
-    <div class="field" style="max-width:420px"><div class="row"><label for="move">Market move, checkout to settlement (<span id="pairLbl"></span>)</label><output id="moveOut"></output></div><input id="move" type="range" min="-3" max="3" step="0.1" value="-0.8"></div>
-    <div class="compare">
-      <div class="card locked"><span class="k">Merchant receives, rate locked at presentment</span><span class="v" id="cLock">–</span><span class="s" id="cLockS"></span></div>
-      <div class="card"><span class="k">Merchant receives if converted at settlement-day rate</span><span class="v" id="cFloat">–</span><span class="s" id="cFloatS"></span></div>
+  <section class="panel" aria-labelledby="h-pricing">
+    <div class="phead"><h2 id="h-pricing">Pricing assumptions</h2><p>Illustrative. Change them and the settle receipt in step 6 updates.</p></div>
+    <div class="assume">
+      <div class="field"><div class="row"><label for="markup">Merchant markup</label><output id="markupOut"></output></div><input id="markup" type="range" min="0" max="600" step="5" value="200"><span class="hint">Added on the quote call. The revenue pool, split in step 6.</span></div>
+      <div class="field"><div class="row"><label for="mshare">Merchant share of markup</label><output id="mshareOut"></output></div><input id="mshare" type="range" min="0" max="100" step="5" value="60"><span class="hint">Processor keeps the rest. Illustrative split; set by contract.</span></div>
     </div>
   </section>
-
-  <div class="layout">
-    <aside aria-label="Inputs">
-      <div class="group">
-        <div class="glabel">Merchant</div>
-        <div class="field"><div class="row"><label for="volume">Monthly cross-border volume (<span class="sc">EUR</span>)</label></div><input id="volume" type="number" min="0" step="50000" value="2000000"></div>
-        <div class="field"><div class="row"><label for="margin">Margin per ticket</label><output id="marginOut"></output></div><input id="margin" type="range" min="2" max="40" step="1" value="10"></div>
-      </div>
-      <div class="group">
-        <div class="glabel">Pricing</div>
-        <div class="field"><div class="row"><label for="fee">Contracted FX fee</label><output id="feeOut"></output></div><input id="fee" type="range" min="0" max="300" step="5" value="100"><span class="hint">Set in the processor contract, built into the rate.</span></div>
-        <div class="field"><div class="row"><label for="markup">Merchant markup</label><output id="markupOut"></output></div><input id="markup" type="range" min="0" max="600" step="5" value="150"><span class="hint">Added on the quote call, kept by the merchant.</span></div>
-        <label class="toggle" for="charm"><input id="charm" type="checkbox" checked> Round local prices (.99, whole units)</label>
-        <div class="field"><div class="row"><label for="expiry">Quote expiry</label></div>
-          <select id="expiry"><option value="15">15 minutes</option><option value="60" selected>1 hour</option><option value="1440">24 hours</option></select></div>
-      </div>
-      <div class="group">
-        <div class="glabel">Settlement window</div>
-        <div class="field"><div class="row"><label for="days">Days, capture to settle</label><output id="daysOut"></output></div><input id="days" type="range" min="1" max="5" step="1" value="2"></div>
-      </div>
-    </aside>
-
-    <main>
-      <section class="panel" aria-labelledby="h-summary">
-        <div class="phead"><h2 id="h-summary">This month at the current markup</h2><p>Compared with charging every buyer in <span class="sc">EUR</span> and letting their card issuer convert.</p></div>
-        <div class="kpis">
-          <div class="kpi"><span class="k">Markup revenue</span><span class="v" id="kRev">–</span><span class="s" id="kRevS"></span></div>
-          <div class="kpi"><span class="k">Profit vs single-currency pricing</span><span class="v" id="kInc">–</span><span class="s" id="kIncS"></span></div>
-          <div class="kpi"><span class="k">Profit-maximizing markup</span><span class="v" id="kOpt">–</span><span class="s" id="kOptS"></span></div>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="h-checkout">
-        <div class="phead"><h2 id="h-checkout">What buyers see at checkout</h2><p>The <span id="pLabel"></span> ticket in each buyer currency at the all-in rate, versus paying in <span class="sc">EUR</span> with a 3% issuer foreign transaction fee.</p></div>
-        <div class="tablewrap"><table>
-          <thead><tr><th>Buyer currency</th><th>Mid rate</th><th>All-in rate</th><th>Checkout price</th><th>Issuer-converted cost</th><th>Buyer vs issuer</th><th>Share</th></tr></thead>
-          <tbody id="mkt"></tbody>
-        </table></div>
-        <p class="note">Rates are <span class="sc">EUR</span> per one unit of the buyer's currency.</p>
-      </section>
-
-      <section class="panel" aria-labelledby="h-quote">
-        <div class="phead"><h2 id="h-quote">Live quote</h2><p>The quote ID is cached and sent with the transaction. Settlement converts at the quoted rate until the quote expires.</p></div>
-        <div class="quote">
-          <div>
-            <div class="qid" id="qid"></div>
-            <div class="meta" id="qmeta"></div>
-            <div class="timer" id="qtimer"></div>
-            <div class="bar" id="qbar"><i id="qfill" style="width:100%"></i></div>
-          </div>
-          <button id="refresh" type="button">Refresh quote</button>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="h-opt">
-        <div class="phead"><h2 id="h-opt">Markup vs monthly profit</h2><p>Each point of markup earns revenue but raises the buyer's price and costs orders. The peak is the profit-maximizing markup.</p></div>
-        <div class="chartbox"><svg id="chart" viewBox="0 0 760 300" width="100%" role="img" aria-label="Monthly profit by markup"></svg></div>
-        <div class="assume">
-          <div class="field"><div class="row"><label for="lift">Conversion lift from local pricing</label><output id="liftOut"></output></div><input id="lift" type="range" min="0" max="20" step="1" value="8"></div>
-          <div class="field"><div class="row"><label for="elast">Price sensitivity</label><output id="elastOut"></output></div><input id="elast" type="range" min="1" max="12" step="0.5" value="6"><span class="hint">Orders lost per 1% increase in buyer price.</span></div>
-          <div class="field"><div class="row"><span style="font-size:13.5px;font-weight:500">Model</span></div><span class="hint">Profit = volume × (1 + lift) × (1 − sensitivity × (fee + markup)) × (margin + markup)</span></div>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="h-risk">
-        <div class="phead"><h2 id="h-risk">Exposure the lock removes</h2><p>Without a lock, proceeds move with the market between capture and settlement. Rough 95% swing per daily settlement batch.</p></div>
-        <div class="kpis">
-          <div class="kpi"><span class="k">Daily batch</span><span class="v" id="rBatch">–</span><span class="s">volume ÷ 30</span></div>
-          <div class="kpi"><span class="k">95% swing, unlocked</span><span class="v neg" id="rSwing">–</span><span class="s" id="rSwingS"></span></div>
-          <div class="kpi"><span class="k">Swing with rate lock</span><span class="v pos" id="rZero">0</span><span class="s">risk carried by processor</span></div>
-        </div>
-      </section>
-    </main>
-  </div>
-
+  <div hidden>
+    <select id="buyer"></select><select id="settle"></select><input id="price" value="145">
+    <input id="volume" value="2000000"><input id="margin" value="10"><input id="lift" value="8"><input id="elast" value="6"><input id="move" value="-0.8">
+    <select id="mode"><option value="markup" selected>markup</option></select><input id="share" value="50"><input id="charm" type="checkbox"><input id="fee" value="50"><output id="feeOut"></output>
+    <select id="expiry"><option value="1440" selected>24 hours</option></select><input id="days" value="2"><output id="daysOut"></output>
   </div>
 
   <footer>Independent concept prototype for discussion, not affiliated with or endorsed by any payment provider. The flow follows the request-quote, cache, charge-with-quote-ID and settle-at-quoted-rate pattern in public developer documentation (<a href="https://developer.paypal.com/braintree/docs/guides/fxaaS/overview/" target="_blank" rel="noopener">FX as a Service overview</a>). Rates, volatility, buyer mix and conversion assumptions are illustrative samples.</footer>
@@ -303,7 +240,7 @@ pre.call{margin:0;background:var(--sunk);border-radius:8px;padding:12px 14px;fon
 // USD value of one unit (sample, not live). share = buyer mix for a Rome show; vol = daily vol vs EUR (sample).
 const C={
   EUR:{u:1.165,sym:"€",dp:2,city:"Paris",share:.12,vol:.0045},
-  GBP:{u:1.345,sym:"£",dp:2,city:"London",share:.26,vol:.0040},
+  GBP:{u:1.34457,sym:"£",dp:2,city:"London",share:.26,vol:.0040},
   USD:{u:1,sym:"$",dp:2,city:"New York",share:.20,vol:.0045},
   CHF:{u:1.255,sym:"CHF ",dp:2,city:"Zurich",share:.07,vol:.0030},
   SEK:{u:.1065,sym:"SEK ",dp:2,city:"Stockholm",share:.05,vol:.0040},
@@ -317,6 +254,7 @@ const C={
 };
 const SETTLE={EUR:"Rome",GBP:"London",USD:"New York"};
 const ISSUER_FTF=.03;
+const EXP_TXT={15:"15 minutes",60:"1 hour",1440:"24 hours"};
 const $=id=>document.getElementById(id);
 let drift={}; Object.keys(C).forEach(k=>drift[k]=1);
 let quote=null;
@@ -328,15 +266,18 @@ const pct=(v,d=1)=>(v*100).toFixed(d)+"%";
 // settlement units per one buyer unit, at mid
 function mid(b,s){return (C[b].u*drift[b])/(C[s].u*drift[s])}
 
-function S(){return{
-  b:$("buyer").value, s:$("settle").value,
-  P:Math.max(1,+$("price").value||0), V:Math.max(0,+$("volume").value||0), g:+$("margin").value/100,
-  f:+$("fee").value/1e4, k:+$("markup").value/1e4, charm:$("charm").checked, exp:+$("expiry").value,
-  days:+$("days").value, lift:+$("lift").value/100, e:+$("elast").value, mv:+$("move").value/100
-}}
-function mkts(s){const list=Object.keys(C).filter(c=>c!==s.s);const tot=list.reduce((a,c)=>a+C[c].share,0);return list.map(c=>({c,share:C[c].share/tot}))}
-function profit(s,k){return s.V*(1+s.lift)*Math.max(0,1-s.e*(s.f+k))*(s.g+k)}
-function optK(s){return Math.min(.06,Math.max(0,(1-s.e*s.f-s.e*s.g)/(2*s.e)))}
+function S(){
+  const o={
+    b:$("buyer").value, s:$("settle").value,
+    P:Math.max(1,+$("price").value||0), V:Math.max(0,+$("volume").value||0), g:+$("margin").value/100,
+    f:+$("fee").value/1e4, k:+$("markup").value/1e4, charm:$("charm").checked, exp:+$("expiry").value,
+    days:+$("days").value, lift:+$("lift").value/100, e:+$("elast").value, mv:+$("move").value/100,
+    mode:$("mode").value, sh:+$("share").value/100, ms:+$("mshare").value/100
+  };
+  o.kRaw=o.k;                       // markup as set on the slider
+  if(o.mode==="share"){o.k=0;o.rs=o.sh*o.f}else{o.rs=0}   // rs = merchant's rebate on the fee, as a rate
+  return o;
+}
 function localPrice(s,c){
   const raw=s.P/mid(c,s.s)*(1+s.f+s.k);
   if(!s.charm) return raw;
@@ -344,6 +285,13 @@ function localPrice(s,c){
   return Math.max(.99,Math.floor(raw)+.99);
 }
 function rateTxt(v){return v<.01?v.toFixed(6):v<1?v.toFixed(5):v.toFixed(4)}
+// per-ticket economics in merchant settlement currency
+function econ(s,lp,m){
+  const gross=lp*m, fee=gross*s.f/(1+s.f+s.k), net0=gross-fee, mk=net0-net0/(1+s.k);
+  const rebate=s.mode==="share"?fee*s.sh:0;
+  const mkM=mk*s.ms, mkP=mk-mkM, item=net0-mk;          // merchant / processor shares of the markup
+  return {gross,fee,mk,mkM,mkP,item,rebate,earn:mkM+rebate,net:net0-mkP+rebate,procEarn:fee-rebate+mkP};
+}
 
 function newQuote(move){
   if(move) Object.keys(drift).forEach(k=>drift[k]*=1+(Math.random()-.5)*.004);
@@ -354,91 +302,12 @@ function newQuote(move){
 
 function render(){
   let s=S();
-  if(s.b===s.s){ // keep buyer and merchant currencies different
-    $("buyer").value=s.s==="GBP"?"EUR":"GBP"; s=S();
-  }
-  document.querySelectorAll(".sc").forEach(el=>el.textContent=s.s);
-  $("priceCcy").textContent=s.s;
-  $("marginOut").textContent=pct(s.g,0); $("feeOut").textContent=bps(s.f); $("markupOut").textContent=bps(s.k);
-  $("daysOut").textContent=s.days+(s.days>1?" days":" day"); $("liftOut").textContent="+"+pct(s.lift,0); $("elastOut").textContent=s.e.toFixed(1)+"×";
-  $("moveOut").textContent=(s.mv>0?"+":"")+pct(s.mv); $("pairLbl").textContent=s.b+"/"+s.s;
-  $("pLabel").textContent=money(s.P,s.s);
-  $("sceneTitle").textContent=`A fan in ${C[s.b].city} buys a concert ticket for a show in ${SETTLE[s.s]}`;
-
-  // scenario walkthrough
-  const m=mid(s.b,s.s), all=m/(1+s.f+s.k), lp=localPrice(s,s.b);
-  const gross=lp*m, fee=gross*s.f/(1+s.f+s.k), net=gross-fee, mk=net-net/(1+s.k);
-  const qid=quote?quote.id:"fxq_…";
-  $("scene").innerHTML=`
-    <div class="step"><span class="when">T0 · page load</span><span class="t">1 · Request quote</span><span class="v">1 ${s.b} = ${rateTxt(all)} ${s.s}</span><span class="d">Mid ${rateTxt(m)}, less ${bps(s.f)} fee and ${bps(s.k)} markup</span></div>
-    <div class="step"><span class="when">T0</span><span class="t">2 · Cache quote ID</span><span class="v" style="font-size:13px"><code>${qid}</code></span><span class="d">Reused for every price on the page until it expires</span></div>
-    <div class="step"><span class="when">T0 + 2 min</span><span class="t">3 · Show local price</span><span class="v">${money(lp,s.b)}</span><span class="d">Ticket list price ${money(s.P,s.s)}</span></div>
-    <div class="step"><span class="when">T0 + 4 min</span><span class="t">4 · Buyer pays</span><span class="v">${money(lp,s.b)}</span><span class="d">Charged in ${s.b}; transaction carries the quote ID</span></div>
-    <div class="step"><span class="when">T + ${s.days} day${s.days>1?"s":""}</span><span class="t">5 · Settle in ${s.s}</span><span class="v pos">${money(net,s.s)}</span><span class="d">Converted at the locked rate; incl. ${money(mk,s.s)} markup, before txn fees</span></div>`;
-  // locked vs floating
-  const floatGross=lp*m*(1+s.mv), floatNet=floatGross-fee;
-  $("cLock").textContent=money(net,s.s); $("cLockS").textContent="Known at checkout, whatever the market does";
-  const dlt=floatNet-net;
-  $("cFloat").textContent=money(floatNet,s.s); $("cFloat").className="v "+(dlt<0?"neg":dlt>0?"pos":"");
-  $("cFloatS").textContent=`${dlt>=0?"+":""}${money(dlt,s.s)} vs locked if ${s.b} moves ${(s.mv>0?"+":"")+pct(s.mv)} before settlement`;
-
-  // summary
-  const pNow=profit(s,s.k), base=s.V*s.g, ko=optK(s), pOpt=profit(s,ko);
-  const orders=(1+s.lift)*Math.max(0,1-s.e*(s.f+s.k));
-  $("kRev").textContent=short(s.V*orders*s.k,s.s); $("kRevS").textContent=bps(s.k)+" on "+short(s.V*orders,s.s)+" converted volume";
-  const inc=pNow-base; $("kInc").textContent=(inc>=0?"+":"")+short(inc,s.s); $("kInc").className="v "+(inc>=0?"pos":"neg");
-  $("kIncS").textContent="orders "+(orders>=1?"+":"")+pct(orders-1)+" vs single-currency";
-  $("kOpt").textContent=bps(ko); $("kOptS").textContent=(pOpt-pNow>1?"+"+short(pOpt-pNow,s.s)+"/mo vs current":"you're at the peak");
-
-  // market table
-  const list=mkts(s);
-  $("mkt").innerHTML=list.map(({c,share})=>{
-    const mm=mid(c,s.s), a=mm/(1+s.f+s.k), p=localPrice(s,c), issuer=s.P/mm*(1+ISSUER_FTF), d=p/issuer-1;
-    return `<tr${c===s.b?' style="background:var(--accent-soft)"':''}><td><div class="ccy"><b>${c}</b><span>${C[c].city}</span></div></td>
-      <td class="num">${rateTxt(mm)}</td><td class="num">${rateTxt(a)}</td>
-      <td class="num"><strong>${money(p,c)}</strong></td><td class="num">${money(issuer,c)}</td>
-      <td><span class="pill ${d<=0?"good":"bad"}">${Math.abs(d)<.0005?"0.0%":(d<0?"":"+")+pct(d)}</span></td><td class="num">${pct(share,0)}</td></tr>`}).join("");
-
-  // risk
-  const batch=s.V/30, wv=list.reduce((a,x)=>a+x.share*C[x.c].vol,0), sw=1.96*wv*Math.sqrt(s.days)*batch;
-  $("rBatch").textContent=short(batch,s.s); $("rSwing").textContent="±"+short(sw,s.s); $("rSwingS").textContent=pct(1.96*wv*Math.sqrt(s.days),2)+" of batch over "+s.days+"d";
-  $("rZero").textContent=C[s.s].sym+"0";
-
-  if(quote){$("qid").textContent=quote.id;$("qmeta").textContent=`${s.b}/${s.s} all-in ${rateTxt(all)} · expires after ${$("expiry").selectedOptions[0].text}`}
-  chart(s,ko); tick();
+  if(s.b===s.s){ $("buyer").value=s.s==="GBP"?"EUR":"GBP"; s=S(); }
+  $("feeOut").textContent=bps(s.f); $("markupOut").textContent=bps(s.kRaw); $("mshareOut").textContent=pct(s.ms,0);
+  $("daysOut").textContent=s.days+(s.days>1?" days":" day");
   if($("jbuyer")&&[...$("jbuyer").options].some(o=>o.value===s.b))$("jbuyer").value=s.b;
-  if(typeof renderJourney==="function")renderJourney();
+  renderJourney();
 }
-
-function chart(s,ko){
-  const W=760,H=300,L=70,R=20,T=18,B=40,kmax=.06,n=121;
-  const pts=[];for(let i=0;i<n;i++){const k=kmax*i/(n-1);pts.push([k,profit(s,k)])}
-  const base=s.V*s.g, vals=pts.map(p=>p[1]).concat(base), hi=Math.max(...vals), lo=Math.min(...vals), pad=(hi-lo)*.15||hi*.1||1;
-  const step=niceStep((hi-lo+2*pad)/4), ymin=Math.max(0,Math.floor((lo-pad)/step)*step), ymax=Math.ceil((hi+pad)/step)*step;
-  const X=k=>L+(W-L-R)*k/kmax, Y=v=>T+(H-T-B)*(1-(v-ymin)/(ymax-ymin));
-  let g="";
-  for(let v=ymin;v<=ymax+1e-6;v+=step){g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end">${short(v,s.s)}</text>`}
-  for(let b=0;b<=600;b+=100){g+=`<text x="${X(b/1e4)}" y="${H-B+18}" text-anchor="middle">${b}</text>`}
-  g+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle">merchant markup (bps)</text>`;
-  g+=`<line x1="${L}" x2="${W-R}" y1="${Y(base)}" y2="${Y(base)}" stroke="var(--brass)" stroke-dasharray="5 4"/><text x="${L+8}" y="${Y(base)+16}" text-anchor="start" style="fill:var(--brass)">single-currency pricing</text>`;
-  const d=pts.map((p,i)=>(i?"L":"M")+X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1)).join(" ");
-  g+=`<path d="${d} L${X(kmax)} ${Y(ymin)} L${X(0)} ${Y(ymin)} Z" fill="var(--accent)" fill-opacity=".10"/><path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
-  const po=profit(s,ko), pc=profit(s,s.k);
-  g+=`<line x1="${X(ko)}" x2="${X(ko)}" y1="${Y(po)}" y2="${Y(ymin)}" stroke="var(--accent)" stroke-dasharray="3 3"/><circle cx="${X(ko)}" cy="${Y(po)}" r="5" fill="var(--accent)"/><text x="${X(ko)}" y="${Y(po)-10}" text-anchor="middle" style="fill:var(--accent)">peak ${bps(ko)}</text>`;
-  g+=`<circle cx="${X(s.k)}" cy="${Y(pc)}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="${Math.min(W-R-40,X(s.k)+8)}" y="${Y(pc)+18}" style="fill:var(--ink)">current</text>`;
-  $("chart").innerHTML=g;
-}
-function niceStep(x){const p=Math.pow(10,Math.floor(Math.log10(x)));const m=x/p;return (m<1.5?1:m<3.5?2:m<7.5?5:10)*p}
-
-function tick(){
-  if(!quote)return;
-  const left=quote.at+quote.exp-Date.now(), fr=Math.max(0,left/quote.exp);
-  $("qfill").style.width=(fr*100)+"%"; $("qbar").classList.toggle("expired",left<=0);
-  if(left<=0){$("qtimer").innerHTML='<span class="neg">Expired. Request a new quote before the next checkout.</span>';return}
-  const m=Math.floor(left/60000), sec=Math.floor(left%60000/1000), h=Math.floor(m/60);
-  $("qtimer").textContent="Rate honored at settlement · "+(h?h+"h "+String(m%60).padStart(2,"0")+"m":m+"m "+String(sec).padStart(2,"0")+"s")+" left";
-}
-
 
 // ---------- Buyer journey ----------
 const STEPS=[
@@ -448,16 +317,16 @@ let jStep=0;
 function ev(s){return {name:"Headliner World Tour",venue:"Stadio Olimpico · "+SETTLE[s.s],date:"Sat 13 Jun 2027 · 20:30",merchant:"Palco Tickets"}}
 function renderJourney(){
   const s=S(), e=ev(s), m=mid(s.b,s.s), all=m/(1+s.f+s.k), lp=localPrice(s,s.b);
-  const gross=lp*m, fee=gross*s.f/(1+s.f+s.k), net=gross-fee, mk=net-net/(1+s.k);
+  const E=econ(s,lp,m), gross=E.gross, fee=E.fee, net=E.net;
   const issuerLocal=s.P/m, ftf=issuerLocal*ISSUER_FTF, issuerTotal=issuerLocal+ftf;
-  const qid=quote?quote.id:"fxq_…", left=quote?Math.max(0,quote.at+quote.exp-Date.now()):0;
-  const mm=Math.floor(left/60000), ss=String(Math.floor(left%60000/1000)).padStart(2,"0");
+  const qid=quote?quote.id:"fxq_…", expTxt=EXP_TXT[s.exp];
   $("jTitle").textContent=`A fan in ${C[s.b].city} buys a ticket for a show in ${SETTLE[s.s]}`;
   $("rail").innerHTML=STEPS.map((x,i)=>`<button type="button" data-i="${i}" class="${i<jStep?"done":""}" ${i===jStep?'aria-current="step"':""}><b>${i+1} · ${x.t}</b>${x.d}</button>`).join("");
   $("rail").querySelectorAll("button").forEach(b=>b.onclick=()=>{jStep=+b.dataset.i;renderJourney()});
   const sb=`<div class="sbar"><span>${s.b==="GBP"?"EE":"5G"}</span><span>20:14</span><span>84%</span></div>`;
   const L=v=>money(v,s.b), M=v=>money(v,s.s), BD=`<span class="who">Behind the scenes</span>`;
-  const nav=`<div class="navbtns">${jStep>0?'<button type="button" class="ghost" id="jBack">Back</button>':""}${jStep<5?'<button type="button" id="jNext">Next step</button>':'<button type="button" id="jToM">See merchant economics</button>'}</div>`;
+  const nav=`<div class="navbtns">${jStep>0?'<button type="button" class="ghost" id="jBack">Back</button>':""}${jStep<5?'<button type="button" id="jNext">Next step</button>':""}</div>`;
+  const reqMarkup=s.mode==="share"?`none (revenue share on the fee)`:bps(s.k);
   let ph="",bs="";
   if(jStep===0){
     ph=`<div class="app"><div class="brand">${e.merchant}</div><div class="poster"><span>${e.name}</span></div>
@@ -465,43 +334,44 @@ function renderJourney(){
       <div class="row2"><span>General admission</span><span class="big">${L(lp)}</span></div>
       <span class="tag">Prices shown in ${s.b}</span><div class="cta">Get tickets</div>
       <div class="muted">You'll pay exactly this amount. No currency conversion by your bank.</div></div>`;
-    bs=`${BD}<h3>The merchant asks for a rate before the page renders</h3>
-      <p>The site detects a ${C[s.b].city} buyer and requests a ${s.s}→${s.b} quote with its markup. Every price on the page is calculated from that one quote.</p>
-      <pre class="call">// Illustrative request, not exact API syntax
-quote({ from: "${s.s}", to: "${s.b}", markup: "${bps(s.k)}" })
+    bs=`${BD}<h3>The merchant requests a rate for the pricing period</h3>
+      <p>The merchant's server requests a ${s.s}→${s.b} quote ahead of time, not per visitor, and refreshes it on a schedule. Every ${s.b} price shown to ${C[s.b].city} buyers until the next refresh is calculated from that one quote.</p>
+      <pre class="call">// Illustrative request, not exact API syntax. Called by the merchant's server, once per period.
+quote({ from: "${s.s}", to: "${s.b}", markup: "${reqMarkup}" })
 → exchangeRateQuoteId: "${qid}"
-→ rate: 1 ${s.b} = ${rateTxt(all)} ${s.s}  (fee + markup included)
-→ expires in: ${$("expiry").selectedOptions[0].text}</pre>
+→ rate: 1 ${s.b} = ${rateTxt(all)} ${s.s}  (markup included)
+→ valid for: ${expTxt} (except market-moving events)</pre>
       <div class="facts"><div class="fact"><span class="k">List price (merchant)</span><span class="v">${M(s.P)}</span></div><div class="fact"><span class="k">Shown to buyer</span><span class="v">${L(lp)}</span></div></div>`;
   }else if(jStep===1){
     ph=`<div class="app"><div class="brand">${e.merchant}</div><strong>Your order</strong>
       <div class="box"><div class="row2"><span>1 × General admission</span><span>${L(lp)}</span></div><div class="muted">${e.name} · ${e.venue}</div></div>
       <div class="row2"><span>Total</span><span class="big">${L(lp)}</span></div>
-      <span class="tag ${left<600000?"warn":""}">Price held for ${left>0?mm+":"+ss:"0:00"}</span>
+      <div class="muted">The price you saw is the price you pay.</div>
       <div class="cta">Continue to payment</div></div>`;
-    bs=`${BD}<h3>The quote is cached and the price is held</h3>
-      <p>The cart reuses the cached quote ID, so the price doesn't change between the event page and checkout. If the quote expires first, the site fetches a new one before taking payment.</p>
-      <div class="facts"><div class="fact"><span class="k">Quote ID</span><span class="v" style="font-size:13px">${qid}</span></div><div class="fact"><span class="k">Time left on quote</span><span class="v">${left>0?mm+"m "+ss+"s":"expired"}</span></div></div>`;
+    bs=`${BD}<h3>The quote is cached and the price carries through</h3>
+      <p>The cart reuses the cached quote ID, so the price doesn't change between the event page and checkout. The buyer sees a fixed price, with no countdown.</p>
+      <div class="facts"><div class="fact"><span class="k">Quote ID</span><span class="v" style="font-size:13px">${qid}</span></div><div class="fact"><span class="k">Quote validity</span><span class="v">up to ${expTxt} (per contract)</span></div><div class="fact"><span class="k">Refreshed</span><span class="v">about every 2 hours</span></div></div>`;
   }else if(jStep===2){
     ph=`<div class="app"><div class="brand">${e.merchant}</div><strong>Payment</strong>
       <div class="input">VISA  •••• 4417</div><div class="row2"><div class="input" style="flex:1">09 / 29</div><div class="input" style="flex:1">•••</div></div>
       <div class="muted">Card issued in ${C[s.b].city}</div>
       <div class="cta">Pay ${L(lp)}</div></div>`;
     bs=`${BD}<h3>The charge is in ${s.b}, tagged with the quote</h3>
-      <p>The merchant submits the sale in the buyer's currency and attaches the quote ID. That guarantees the conversion at settlement uses the rate shown on screen.</p>
+      <p>The merchant submits the sale in the buyer's currency and attaches the quote ID, so the conversion at settlement uses the rate shown on screen, unless a market-moving event occurs first.</p>
       <pre class="call">// Illustrative request, not exact API syntax
 transaction.sale({
-  amount: "${lp.toFixed(C[s.b].dp)}",  currency: "${s.b}",
-  exchangeRateQuoteId: "${qid}"
+  amount: "${lp.toFixed(C[s.b].dp)}",
+  exchangeRateQuoteId: "${qid}",
+  submitForSettlement: true
 })
-→ status: authorized</pre>`;
+→ status: submitted_for_settlement</pre>`;
   }else if(jStep===3){
     ph=`<div class="app"><div class="brand">${e.merchant}</div><span class="tag">Payment confirmed</span>
       <strong>${e.name}</strong><div class="muted">${e.venue} · ${e.date}</div>
       <div class="qr" aria-hidden="true"></div>
       <div class="row2"><span>You paid</span><span class="big">${L(lp)}</span></div></div>`;
     bs=`${BD}<h3>Captured and settling</h3>
-      <p>The buyer's side is done. The transaction shows as settling while the processor holds the ${s.b} funds, ready to convert at the locked rate.</p>
+      <p>The buyer's side is done. The transaction shows as settling while the processor holds the ${s.b} funds, ready to convert at the locked rate (except market-moving events).</p>
       <div class="facts"><div class="fact"><span class="k">Buyer charged</span><span class="v">${L(lp)}</span></div><div class="fact"><span class="k">Locked rate</span><span class="v">${rateTxt(all)} ${s.s}/${s.b}</span></div></div>`;
   }else if(jStep===4){
     ph=`<div class="app"><div class="bank">My Bank · Current account</div>
@@ -518,38 +388,32 @@ transaction.sale({
       <div class="facts"><div class="fact"><span class="k">Paid with local pricing</span><span class="v">${L(lp)}</span></div><div class="fact"><span class="k">Bank conversion + fee</span><span class="v">${L(issuerTotal)}</span></div>
       <div class="fact"><span class="k">Buyer difference</span><span class="v ${d>=0?"pos":"neg"}">${d>=0?"saves ":"pays "}${L(Math.abs(d))}</span></div><div class="fact"><span class="k">Price surprise</span><span class="v">${L(0)}</span></div></div>`;
   }else{
-    ph=`<div class="app"><div class="brand" style="color:#2F6B4F">${e.merchant} · Finance</div><strong>Settlement report</strong><div class="muted">Batch T+${s.days} · paid in ${s.s}</div>
-      <div class="box"><div class="txn"><span>Charged</span><span>${L(lp)}</span></div>
-      <div class="txn"><span>Locked rate</span><span>${rateTxt(all)}</span></div>
-      <div class="txn"><span>Converted at mid</span><span>${M(gross)}</span></div>
-      <div class="txn"><span>FX fee (${bps(s.f)})</span><span>−${M(fee)}</span></div>
-      <div class="txn"><strong>Net to merchant</strong><strong>${M(net)}</strong></div></div>
-      <div class="muted">Includes ${M(mk)} FX markup. Transaction fees billed separately.</div></div>`;
+    ph=`<div class="app"><div class="brand" style="color:#2F6B4F">${e.merchant} · Finance</div><strong>Settlement report</strong><div class="muted">Batch T+${s.days} · paid in ${s.s} · rate locked at quote</div>
+      <div class="box"><div class="muted">① Converted at the locked rate: ${rateTxt(all)}</div>
+      <div class="txn"><span>Item value</span><span>${M(E.item)}</span></div>
+      <div class="muted">② Markup split</div>
+      <div class="txn"><span>Markup collected (${bps(s.k)})</span><span>${M(E.mk)}</span></div>
+      <div class="txn"><span>Your share ${pct(s.ms,0)}</span><span>+${M(E.mkM)}</span></div>
+      <div class="txn"><span>Our share ${pct(1-s.ms,0)}</span><span class="muted">${M(E.mkP)}</span></div>
+      <div class="txn"><strong>Merchant paid</strong><strong>${M(net)}</strong></div></div>
+      <div class="muted">Transaction fees billed separately.</div></div>`;
     bs=`${BD}<h3>The merchant is paid in ${s.s}, at the rate the buyer saw</h3>
-      <p>At settlement the processor converts the ${s.b} into ${s.s} at the quoted rate, keeps its FX fee, and pays the merchant. The merchant's finance team reconciles one ${s.s} amount per order, with no exposure to rate moves between checkout and payout.</p>
-      <div class="facts"><div class="fact"><span class="k">List price</span><span class="v">${M(s.P)}</span></div><div class="fact"><span class="k">Net received</span><span class="v pos">${M(net)}</span></div>
-      <div class="fact"><span class="k">Markup earned</span><span class="v">${M(mk)}</span></div><div class="fact"><span class="k">FX risk carried</span><span class="v">${M(0)}</span></div></div>`;
+      <p>The markup is the revenue pool: the merchant keeps ${pct(s.ms,0)} and the processor ${pct(1-s.ms,0)}. The merchant reconciles one ${s.s} amount per order, with no exposure to rate moves after the quote, unless a market-moving event occurs, in which case the merchant is notified.</p>
+      <div class="facts"><div class="fact"><span class="k">Merchant paid</span><span class="v pos">${M(net)}</span></div>
+      <div class="fact"><span class="k">Merchant markup share</span><span class="v">${M(E.mkM)}</span></div><div class="fact"><span class="k">FX risk carried by merchant<br><small style="font-weight:400;opacity:.75">in normal conditions</small></span><span class="v">${M(0)}</span></div></div>`;
   }
   $("phone").innerHTML=sb+ph;
   $("backstage").innerHTML=bs+nav;
-  const nb=$("jNext"),bb=$("jBack"),tm=$("jToM");
-  if(nb)nb.onclick=()=>{jStep++;renderJourney()}; if(bb)bb.onclick=()=>{jStep--;renderJourney()}; if(tm)tm.onclick=()=>showTab("M");
+  const nb=$("jNext"),bb=$("jBack");
+  if(nb)nb.onclick=()=>{jStep++;renderJourney()}; if(bb)bb.onclick=()=>{jStep--;renderJourney()};
 }
-function showTab(t){
-  $("tJ").setAttribute("aria-selected",t==="J"); $("tM").setAttribute("aria-selected",t==="M");
-  $("tabJourney").hidden=t!=="J"; $("tabMerchant").hidden=t!=="M";
-}
-$("tJ").onclick=()=>showTab("J"); $("tM").onclick=()=>showTab("M");
 $("jbuyer").innerHTML=Object.keys(C).filter(c=>c!=="EUR").map(c=>`<option value="${c}"${c==="GBP"?" selected":""}>${C[c].city} · pays in ${c}</option>`).join("");
 $("jbuyer").addEventListener("input",()=>{$("buyer").value=$("jbuyer").value;render()});
-setInterval(()=>{if(jStep===1&&!$("tabJourney").hidden)renderJourney()},1000);
 
 $("buyer").innerHTML=Object.keys(C).map(c=>`<option value="${c}"${c==="GBP"?" selected":""}>${C[c].city} · pays in ${c}</option>`).join("");
 $("settle").innerHTML=Object.keys(SETTLE).map(c=>`<option value="${c}"${c==="EUR"?" selected":""}>${c} · ${SETTLE[c]} merchant</option>`).join("");
 document.querySelectorAll("input,select").forEach(el=>el.addEventListener("input",()=>{if(el.id==="expiry")newQuote(false);else render()}));
-$("refresh").addEventListener("click",()=>newQuote(true));
 newQuote(false);
-setInterval(tick,1000);
 </script>
 
 </body>
